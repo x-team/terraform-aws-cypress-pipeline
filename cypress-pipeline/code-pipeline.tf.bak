@@ -1,0 +1,33 @@
+resource "aws_codepipeline" "cypress" {
+  name     = local.name
+  role_arn = var.code_pipeline_iam_role_arn
+
+  artifact_store {
+    location = var.bucket_id
+    type     = "S3"
+  }
+
+  # Source, Build and Deploy stages...
+
+  stage {
+    name = local.name
+
+    action {
+      name            = "smoke-tests"
+      category        = "Test"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = 1
+      input_artifacts = ["source"]
+
+      # No output_artifacts, as they cannot be deployed if this step fails!
+      # Instead, the build copies them somewhere useful.
+
+      configuration = {
+        ProjectName = aws_codebuild_project.smoke_tests.name
+      }
+    }
+  }
+
+  # Manual approval and other further deployments...
+}

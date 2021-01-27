@@ -1,0 +1,7 @@
+{
+  "name": "cypress-pipeline",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Marlo Vinall Richardson <marlovinallrichardson@gmail.com>",
+  "license": "MIT"
+}
